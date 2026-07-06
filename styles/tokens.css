@@ -1,0 +1,99 @@
+/* ============================================================
+   FocusFlow Design Tokens
+   A calm, premium, dark-mode design system
+   Inspired by Linear, Notion, Headspace, Apple Health
+   ============================================================ */
+
+:root {
+  /* ── Backgrounds (Apple-style Obsidian) ── */
+  --bg-primary: #08080A;
+  --bg-surface: #121214;
+  --bg-elevated: #18181B;
+  --bg-hover: #202024;
+  --bg-input: #151518;
+
+  /* ── Text ── */
+  --text-primary: #F5F5F7;
+  --text-secondary: #8E8E93;
+  --text-tertiary: #515156;
+  --text-accent: #A78BFA;
+
+  /* ── Accent (Linear-style premium gradient) ── */
+  --accent-primary: #6366F1;
+  --accent-secondary: #7C3AED;
+  --accent-gradient: linear-gradient(135deg, #00F2FE 0%, #7C3AED 50%, #FE019A 100%);
+  --accent-glow: rgba(0, 242, 254, 0.3);
+  --accent-subtle: rgba(0, 242, 254, 0.05);
+
+  /* ── Neon Colors (Takdta Bhatakta Theme) ── */
+  --neon-cyan: #00F2FE;
+  --neon-pink: #FE019A;
+  --neon-indigo: #6366F1;
+  --neon-green: #05FFC0;
+  --neon-yellow: #FFD200;
+  --neon-gradient: linear-gradient(90deg, #00F2FE, #7C3AED, #FE019A, #05FFC0, #00F2FE);
+
+  /* ── Glassmorphism ── */
+  --glass-bg: rgba(10, 10, 12, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.04);
+  --glass-blur: blur(24px) saturate(1.5);
+  -webkit-glass-blur: blur(24px) saturate(1.5);
+
+  /* ── Status ── */
+  --success: #34D399;
+  --success-dim: rgba(52, 211, 153, 0.12);
+  --warning: #FBBF24;
+  --warning-dim: rgba(251, 191, 36, 0.12);
+  --error: #F87171;
+
+  /* ── Focus Rating Colors (1–5) ── */
+  --rating-1: #F87171;
+  --rating-2: #FB923C;
+  --rating-3: #FBBF24;
+  --rating-4: #34D399;
+  --rating-5: #6366F1;
+
+  /* ── Borders ── */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-focus: rgba(99, 102, 241, 0.5);
+
+  /* ── Spacing Scale ── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+  --space-11: 80px;
+  --space-12: 96px;
+
+  /* ── Border Radius ── */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px var(--accent-glow);
+  --shadow-glow-lg: 0 0 40px var(--accent-glow), 0 0 80px rgba(99, 102, 241, 0.1);
+
+  /* ── Transitions ── */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── Typography ── */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+}

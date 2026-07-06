@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FocusFlow — Your calm focus companion. Build consistency through short, achievable focus sessions.">
+  <meta name="theme-color" content="#0C0C0E">
+  <meta property="og:title" content="FocusFlow — Focus Companion">
+  <meta property="og:description" content="Build consistency through short, achievable focus sessions. Start small, stay focused, grow daily.">
+  <title>FocusFlow — Focus Companion</title>
+
+  <!-- Google Fonts: Inter + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles/base.css">
+
+  <!-- CSS Design System -->
+  <link rel="stylesheet" href="styles/tokens.css?v=2">
+  <link rel="stylesheet" href="styles/base.css?v=2">
+  <link rel="stylesheet" href="styles/components.css?v=2">
+  <link rel="stylesheet" href="styles/animations.css?v=2">
+  <link rel="stylesheet" href="styles/layout.css?v=2">
+
+  <style>
+    /* ═══════════════════════════════════════════
+       FocusFlow — Premium Page Styles
+       Linear / Apple design language
+       ═══════════════════════════════════════════ */
+
+    /* ── Onboarding Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(24px) saturate(1.2);
+      -webkit-backdrop-filter: blur(24px) saturate(1.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-6);
+    }
+    .modal-overlay.hidden { display: none; }
+    .modal-card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.015) 0%, transparent 100%), var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-9) var(--space-8);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+                  0 24px 80px rgba(0, 0, 0, 0.7),
+                  0 0 50px rgba(99, 102, 241, 0.05);
+    }
+    .modal-icon {
+      font-size: 3.5rem;
+      margin-bottom: var(--space-5);
+      display: block;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    }
+
+    /* ── App Logo ── */
+    .app-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .logo-icon {
+      font-size: 1.35rem;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 8px var(--accent-glow));
+    }
+    .logo-text {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--text-primary);
+    }
+
+    /* ── Hero Layout ── */
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      flex: 1;
+    }
+    .hero-greeting {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .hero-stats {
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+      margin-top: var(--space-3);
+    }
+
+    /* ── Focus Progress Content ── */
+    .focus-progress-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-5);
+    }
+    .focus-today-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .focus-ring-container { flex-shrink: 0; }
+
+    /* ── Goals ── */
+    .goals-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: var(--space-4);
+    }
+    .goal-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding-top: var(--space-2);
+      border-top: 1px solid var(--border-subtle);
+    }
+    .goal-input-wrapper .input-field { flex: 1; }
+    .btn-delete-goal {
+      opacity: 0;
+      color: var(--text-tertiary);
+      font-size: 1rem;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-fast);
+      flex-shrink: 0;
+    }
+    .checkbox-item:hover .btn-delete-goal { opacity: 0.7; }
+    .btn-delete-goal:hover { opacity: 1 !important; color: var(--error); background: rgba(248,113,113,0.08); }
+
+    /* ── Streaks ── */
+    .streak-stats {
+      display: flex;
+      gap: var(--space-8);
+      margin-bottom: var(--space-6);
+    }
+    .streak-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    /* ── Heatmap ── */
+    .heatmap-labels {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+      margin-bottom: var(--space-2);
+    }
+    .heatmap-labels span {
+      text-align: center;
+      font-size: 0.5625rem;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 500;
+    }
+
+    /* ── Insight Content ── */
+    .insight-content {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+    .insight-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      line-height: 1.5;
+      filter: drop-shadow(0 0 6px rgba(99,102,241,0.3));
+    }
+
+    /* ── Session Layout ── */
+    .session-phase {
+      width: 100%;
+      max-width: 520px;
+      position: relative;
+    }
+    .session-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+    .session-setup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: var(--space-10);
+    }
+    .session-ambient {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse at 50% 30%, rgba(99,102,241,0.1) 0%, transparent 60%),
+        radial-gradient(ellipse at 30% 70%, rgba(139,92,246,0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .timer-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .timer-ring-outer {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .timer-ring-wrapper {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .timer-display {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      pointer-events: none;
+    }
+    .timer-separator {
+      animation: breathe 2s ease-in-out infinite;
+    }
+    .session-controls {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      margin-top: var(--space-8);
+    }
+    .session-quote {
+      margin-top: var(--space-8);
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 var(--space-4);
+    }
+
+    /* ── Custom Duration ── */
+    .custom-duration {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Reflection ── */
+    .reflection-step { }
+    .reflection-actions {
+      margin-top: var(--space-4);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--border-subtle);
+    }
+    .rating-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: var(--space-2);
+      padding: 0 var(--space-1);
+    }
+
+    /* ── Completion ── */
+    .completion-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    .completion-icon {
+      font-size: 4.5rem;
+      margin-bottom: var(--space-5);
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,0.3));
+      animation: float 3s ease-in-out infinite;
+    }
+    .completion-stats {
+      display: flex;
+      gap: var(--space-8);
+      justify-content: center;
+      margin-bottom: var(--space-8);
+      padding: var(--space-6) var(--space-8);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+    }
+    .completion-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-1);
+    }
+    .completion-stat .stat-value {
+      font-size: 2.25rem;
+    }
+    .completion-stat .stat-label {
+      font-size: 0.6875rem;
+      letter-spacing: 0.06em;
+    }
+    .completion-actions {
+      width: 100%;
+      max-width: 320px;
+    }
+    .completion-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--border-default);
+      margin: 0 auto;
+    }
+
+    /* ── Responsive tweaks ── */
+    @media (max-width: 480px) {
+      .text-hero { font-size: 2.25rem; }
+      .text-number-xl { font-size: 3rem; }
+      .hero { padding: var(--space-6); }
+      .hero-stats { flex-direction: column; align-items: flex-start; gap: var(--space-3); }
+      .session-controls { gap: var(--space-3); }
+      .rating-scale { gap: var(--space-2); }
+      .rating-dot { width: 40px; height: 40px; font-size: 1.1rem; }
+      .duration-picker { justify-content: center; }
+      .completion-stats {
+        gap: var(--space-6);
+        padding: var(--space-5) var(--space-6);
+      }
+      .completion-stat .stat-value { font-size: 1.75rem; }
+      .modal-card { padding: var(--space-7) var(--space-6); }
+    }
+
+    @media (min-width: 768px) {
+      .session-quote { max-width: 450px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Global SVG Filters for Neon glows -->
+  <svg style="position: absolute; width: 0; height: 0;" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="ring-glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="4" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Premium background styling assets -->
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="glow-blob glow-blob--1" aria-hidden="true"></div>
+  <div class="glow-blob glow-blob--2" aria-hidden="true"></div>
+  
+  <!-- Video Backgrounds -->
+  <!-- Background Media Container -->
+  <div id="bg-container" style="position: fixed; inset: 0; z-index: -20; overflow: hidden; pointer-events: none; background: #000;">
+    <!-- Local / MP4 Video -->
+    <video id="bg-video-element" class="bg-video" loop muted playsinline crossorigin="anonymous" style="opacity: 0; display: none;"></video>
+    
+    <!-- YouTube Video Background -->
+    <iframe id="bg-youtube-element" src="" frameborder="0" allow="autoplay; fullscreen" style="display: none; width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.77vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; opacity: 0; transition: opacity 1s ease-in-out;"></iframe>
+  </div>
+
+  <div id="video-overlay" class="video-overlay active" style="z-index: -19;"></div>
+  
+  <!-- Canvas used only for micro-interactions now, not background rendering -->
+  <canvas id="ambient-canvas" class="bg-canvas" style="z-index: -18; pointer-events: none;"></canvas>
+
+  <!-- ═════ Onboarding Modal ═════ -->
+  <div id="onboarding-modal" class="modal-overlay hidden">
+    <div class="modal-card animate-scale-in">
+      <span class="modal-icon">🎯</span>
+      <h1 class="text-h1 text-gradient">Welcome to FocusFlow</h1>
+      <p class="text-body" style="color: var(--text-secondary); margin: var(--space-4) 0 var(--space-6);">
+        Your calm focus companion. Start small, stay consistent, and watch your productivity grow.
+      </p>
+      <label class="text-body-sm" style="color: var(--text-secondary); display: block; margin-bottom: var(--space-2); text-align: left;">What should we call you?</label>
+      <input type="text" id="onboarding-name" class="input-field" placeholder="Your name" maxlength="30" autocomplete="off">
+      <button id="onboarding-submit" class="btn btn-primary" style="width: 100%; margin-top: var(--space-5);">Let's Begin</button>
+    </div>
+  </div>
+
+  <!-- ═════ App Shell ═════ -->
+  <div id="app" class="app">
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- VIEW: DASHBOARD                            -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="view-dashboard" class="view active">
+
+      <header class="app-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: var(--space-6);">
+        <div class="app-logo">
+          <span class="logo-icon">◉</span>
+          <span class="logo-text text-gradient">FocusFlow</span>
+        </div>
+        
+        <!-- Controls Container -->
+        <div style="display: flex; gap: var(--space-4); align-items: center; flex-wrap: wrap; justify-content: flex-end;">
+          <!-- Music Switcher -->
+          <div class="music-switcher" style="display: flex; gap: var(--space-2); background: rgba(0,0,0,0.3); padding: 4px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px);">
+            <button id="btn-music-rain" class="music-btn" aria-label="Rain Sounds" title="Rain Sounds" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 16px; transition: all 0.2s; opacity: 0.5;">🌧️</button>
+            <button id="btn-music-ambient" class="music-btn" aria-label="Ambient Drone" title="Ambient Drone" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 16px; transition: all 0.2s; opacity: 0.5;">🎹</button>
+            <button id="btn-music-lofi" class="music-btn" aria-label="Lofi Mix" title="Lofi Mix" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 16px; transition: all 0.2s; opacity: 0.5;">🎧</button>
+            <button id="btn-music-focus" class="music-btn" aria-label="Focus Tones" title="Focus — Binaural Beats + Brown Noise" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 16px; transition: all 0.2s; opacity: 0.5;">🧠</button>
+            <div style="width: 1px; background: rgba(255,255,255,0.2); margin: 4px 2px;"></div>
+            <button id="btn-music-mute" class="music-btn active" aria-label="Mute" title="Mute Music" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 16px; transition: all 0.2s; opacity: 1;">🔇</button>
+          </div>
+
+          <!-- Theme Switcher -->
+          <div class="theme-switcher" style="display: flex; gap: var(--space-2); background: rgba(0,0,0,0.3); padding: 4px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px);">
+            <button id="btn-theme-sunset" class="theme-btn" aria-label="Sunset Video" title="4K Sunset" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 16px; transition: all 0.2s; opacity: 0.5;">🌅</button>
+            <button id="btn-theme-abstract" class="theme-btn active" aria-label="Aura Video" title="Aura" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 16px; transition: all 0.2s; opacity: 1;">🔮</button>
+            <button id="btn-theme-forest" class="theme-btn" aria-label="Forest Video" title="4K Forest" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 16px; transition: all 0.2s; opacity: 0.5;">🍃</button>
+            <div style="width: 1px; background: rgba(255,255,255,0.2); margin: 4px 2px;"></div>
+            <button id="btn-theme-custom" class="theme-btn" aria-label="Custom Video" title="Paste Your Own Video URL" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 16px; transition: all 0.2s; opacity: 0.5;">🔗</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="bento-container">
+
+        <!-- Central Nexus (Hero) -> Bento Span Large -->
+        <section id="hero-section" class="bento-card bento-span-large bg-gradient-midnight animate-scale-in" style="display: flex; flex-direction: column; justify-content: space-between; position: relative; min-height: 400px; z-index: 1;">
+          
+          <!-- Top Row: Greeting & Clock -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; position: relative; z-index: 2;">
+            <div class="hero-greeting" style="display: flex; flex-direction: column; justify-content: flex-start; padding-top: 4px;">
+              <p id="greeting-text" class="text-h2" style="color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.9rem; margin: 0; margin-bottom: 12px; line-height: 1;">Good evening,</p>
+              <h1 id="greeting-name" class="text-hero" style="font-family: 'Outfit', sans-serif; font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1; margin: 0;">User</h1>
+            </div>
+            
+            <!-- Live Clock & Date -->
+            <div class="hero-clock" style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-start;">
+              <div style="margin-bottom: 12px; height: 18px; display: flex; align-items: center;">
+                <span class="badge badge--streak" id="streak-badge" style="font-size: 0.85rem; padding: 4px 10px; background: rgba(0,0,0,0.3); border: none; line-height: 1;">🔥 0 day streak</span>
+              </div>
+              <div id="live-time" style="font-family: 'Outfit', sans-serif; font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 800; line-height: 1; letter-spacing: -0.02em; color: white; margin: 0;">00:00</div>
+              <div id="live-date" style="font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.6); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.05em;">Mon, Jan 1</div>
+            </div>
+          </div>
+          
+          <!-- Center Absolute: Focus Button -->
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;">
+            <button id="btn-start-session" class="btn-focus-orb animate-pulse-glow" aria-label="Start a focus session" style="margin: 0; box-shadow: 0 0 80px rgba(124, 58, 237, 0.4);">
+              <svg width="40" height="40" viewBox="0 0 20 20" fill="none" aria-hidden="true"><polygon points="6,3 17,10 6,17" fill="currentColor"/></svg>
+              <span style="font-size: 1.1rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Focus</span>
+            </button>
+          </div>
+          
+          <!-- Bottom Row: Motivation Quote -->
+          <div style="display: flex; justify-content: center; align-items: flex-end; width: 100%; margin-top: auto; padding-top: var(--space-8); position: relative; z-index: 2;">
+            <div style="text-align: center; max-width: 80%; background: rgba(0,0,0,0.2); padding: 12px 24px; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05);">
+               <p style="font-size: 1rem; color: rgba(255,255,255,0.9); font-style: italic; margin-bottom: 6px;">"Focus is a muscle, and you are building it."</p>
+               <p style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em;">Daily Motivation</p>
+            </div>
+          </div>
+          
+        </section>
+
+        <!-- Goals -> Bento Span Wide -->
+        <section class="bento-card bento-span-wide bg-gradient-glass animate-fade-in-up stagger-1">
+          <div class="card-header">
+            <span class="card-title">Objectives</span>
+            <span id="goals-completion" class="badge badge--accent" style="background: rgba(255,255,255,0.1);">0/0</span>
+          </div>
+          <div id="goals-list" class="goals-list" style="flex-grow: 1; min-height: 120px; overflow-y: auto; margin-bottom: var(--space-4);"></div>
+          <div class="goal-input-wrapper" id="goal-input-wrapper" style="margin-top: auto;">
+            <input type="text" id="goal-input" class="input-field" placeholder="Add objective…" maxlength="100" autocomplete="off" style="background: rgba(0,0,0,0.3); color: white; border: none;">
+            <button id="btn-add-goal" class="btn-icon" aria-label="Add goal" style="color: white;">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+        </section>
+
+        <!-- Today's Focus -> Bento Span 1 -->
+        <section class="bento-card bento-span-1 bg-gradient-sunset animate-fade-in-up stagger-2">
+          <div class="card-header" style="margin-bottom: auto;">
+            <span class="card-title" style="color: rgba(255,255,255,0.8);">Today's Focus</span>
+          </div>
+          <div class="focus-progress-content" style="flex-direction: column; align-items: flex-start; justify-content: flex-end; height: 100%;">
+            <div class="focus-today-stat" style="margin-bottom: var(--space-4);">
+              <span id="today-minutes" class="text-number-lg" style="font-size: 4rem; line-height: 1; color: white;">0</span>
+              <span class="stat-label" style="color: rgba(255,255,255,0.8);">minutes</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Consistency -> Bento Span 1 -->
+        <section class="bento-card bento-span-1 bg-gradient-ocean animate-fade-in-up stagger-3">
+          <div class="card-header" style="margin-bottom: auto;">
+            <span class="card-title" style="color: rgba(255,255,255,0.8);">Consistency</span>
+          </div>
+          <div class="streak-stats" style="margin-top: auto; flex-direction: column; gap: var(--space-2);">
+            <div class="streak-stat" style="align-items: flex-start;">
+              <span id="current-streak" class="stat-value" style="font-size: 2.5rem; color: white;">0</span>
+              <span class="stat-label" style="color: rgba(255,255,255,0.8);">Current</span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- VIEW: FOCUS SESSION                        -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="view-session" class="view">
+      <div class="session-view">
+
+        <!-- Pre-session: Duration Picker -->
+        <div id="session-pre" class="session-phase" style="width: 100%; max-width: 500px; position: relative;">
+          <button id="btn-back-from-session" class="btn btn-ghost session-back" aria-label="Back to dashboard" style="position: absolute; top: -60px; left: 0;">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M13 4l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Back
+          </button>
+          
+          <div class="bento-card bg-gradient-midnight animate-scale-in" style="align-items: center; text-align: center;">
+            <h2 class="text-h1" style="margin-bottom: var(--space-2);">Ready to focus?</h2>
+            <p class="text-body" style="color: rgba(255,255,255,0.7); margin-bottom: var(--space-8);">Choose your session length</p>
+            
+            <div class="duration-picker" id="duration-picker" style="justify-content: center; gap: var(--space-3); margin-bottom: var(--space-6);">
+              <button class="duration-option" data-duration="900">15 min</button>
+              <button class="duration-option active" data-duration="1200">20 min</button>
+              <button class="duration-option" data-duration="1500">25 min</button>
+              <button class="duration-option" data-duration="2700">45 min</button>
+              <button class="duration-option" data-duration="3600">60 min</button>
+            </div>
+            
+            <div class="custom-duration" style="margin-bottom: var(--space-8);">
+              <input type="number" id="custom-duration-input" class="input-field" placeholder="Custom minutes" min="1" max="120" style="max-width: 200px; text-align: center; background: rgba(0,0,0,0.2); border: none;">
+            </div>
+            
+            <button id="btn-begin-session" class="btn btn-primary btn-large" style="width: 100%;">Begin Session</button>
+          </div>
+        </div>
+
+        <!-- Active Session: Timer -->
+        <div id="session-active" class="session-phase hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+          
+          <!-- Massive blurred orb behind the timer -->
+          <div class="session-ambient animate-pulse-glow" style="position: absolute; width: 70vmin; height: 70vmin; background: radial-gradient(circle, rgba(124, 58, 237, 0.3) 0%, rgba(254, 1, 154, 0.15) 50%, transparent 80%); filter: blur(60px); z-index: -1; pointer-events: none;"></div>
+
+          <div class="timer-container animate-scale-in" style="position: relative; display: flex; flex-direction: column; align-items: center;">
+            
+            <div class="timer-ring-outer" style="position: relative; display: flex; justify-content: center; align-items: center;">
+              <div id="timer-ring-container" class="timer-ring-wrapper"></div>
+              
+              <!-- Center text inside the ring -->
+              <div class="timer-display" aria-live="polite" aria-atomic="true" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; width: 100%;">
+                <span id="timer-minutes" style="font-family: 'Outfit', sans-serif; font-size: clamp(5rem, 15vw, 8rem); font-weight: 800; line-height: 1; letter-spacing: -0.02em; color: white; text-shadow: 0 4px 20px rgba(0,0,0,0.5);">20</span>
+                <span class="timer-separator" style="font-family: 'Outfit', sans-serif; font-size: clamp(5rem, 15vw, 8rem); font-weight: 800; line-height: 1; color: white; text-shadow: 0 4px 20px rgba(0,0,0,0.5); margin: 0 4px; position: relative; top: -0.05em;">:</span>
+                <span id="timer-seconds" style="font-family: 'Outfit', sans-serif; font-size: clamp(5rem, 15vw, 8rem); font-weight: 800; line-height: 1; letter-spacing: -0.02em; color: white; text-shadow: 0 4px 20px rgba(0,0,0,0.5);">00</span>
+              </div>
+            </div>
+            
+            <p id="timer-label" class="text-body" style="color: rgba(255,255,255,0.8); margin-top: var(--space-6); font-size: 1.2rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Stay focused</p>
+          </div>
+          
+          <div class="session-controls" style="margin-top: var(--space-8); display: flex; flex-direction: row; align-items: center; justify-content: center; gap: var(--space-6);">
+            <!-- Huge Pause Button -->
+            <button id="btn-pause" class="btn-focus-orb" style="display: flex; align-items: center; justify-content: center; margin-top: 0; width: 72px; height: 72px; background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 2px 10px rgba(255,255,255,0.2); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);" aria-label="Pause session">
+              <svg id="pause-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="margin: 0;"><rect x="6" y="4" width="4" height="16" rx="2" fill="currentColor"/><rect x="14" y="4" width="4" height="16" rx="2" fill="currentColor"/></svg>
+              <svg id="play-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" class="hidden" aria-hidden="true" style="margin: 0; margin-left: 4px;"><polygon points="7,4 20,12 7,20" fill="currentColor"/></svg>
+            </button>
+            
+            <!-- End Session Button -->
+            <button id="btn-end-session" class="btn-end-session">End Session</button>
+          </div>
+          
+          <div class="session-quote" style="margin-top: var(--space-8); padding: 0 var(--space-6);">
+            <p id="quote-text" class="text-body" style="color: rgba(255,255,255,0.5); font-style: italic; max-width: 500px; text-align: center; font-size: 1.1rem; line-height: 1.6;"></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- VIEW: REFLECTION                           -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="view-reflection" class="view">
+      <div class="reflection-view">
+        <div class="reflection-card card card--elevated animate-slide-in-up">
+          <h2 class="text-h2" style="text-align: center; margin-bottom: var(--space-1);">Session Complete! 🎉</h2>
+          <p class="text-body-sm" style="color: var(--text-secondary); text-align: center; margin-bottom: var(--space-6);">Take a moment to reflect</p>
+
+          <!-- Step 1: Topic -->
+          <div class="reflection-step" style="margin-bottom: var(--space-6);">
+            <label class="text-body-sm" style="color: var(--text-secondary); display: block; margin-bottom: var(--space-2);">What did you work on?</label>
+            <input type="text" id="reflection-topic" class="input-field" placeholder="e.g., DSA problems, React tutorial, reading…" maxlength="100" autocomplete="off">
+          </div>
+
+          <!-- Step 2: Focus Rating -->
+          <div class="reflection-step" style="margin-bottom: var(--space-6);">
+            <label class="text-body-sm" style="color: var(--text-secondary); display: block; margin-bottom: var(--space-3);">How focused were you?</label>
+            <div id="focus-rating" class="rating-scale">
+              <button class="rating-dot" data-rating="1" aria-label="Very Distracted" title="Very Distracted"><span>😵</span></button>
+              <button class="rating-dot" data-rating="2" aria-label="Somewhat Distracted" title="Somewhat Distracted"><span>😟</span></button>
+              <button class="rating-dot" data-rating="3" aria-label="Okay" title="Okay"><span>😐</span></button>
+              <button class="rating-dot" data-rating="4" aria-label="Focused" title="Focused"><span>😊</span></button>
+              <button class="rating-dot" data-rating="5" aria-label="Deep Focus" title="Deep Focus"><span>🧘</span></button>
+            </div>
+            <div class="rating-labels">
+              <span class="text-caption" style="font-size: 0.625rem;">Distracted</span>
+              <span class="text-caption" style="font-size: 0.625rem;">Deep Focus</span>
+            </div>
+          </div>
+
+          <!-- Step 3: Distractions -->
+          <div class="reflection-step" style="margin-bottom: var(--space-6);">
+            <label class="text-body-sm" style="color: var(--text-secondary); display: block; margin-bottom: var(--space-3);">What distracted you?</label>
+            <div id="distraction-tags" class="tag-group">
+              <button class="tag" data-tag="Phone">📱 Phone</button>
+              <button class="tag" data-tag="Social Media">💬 Social Media</button>
+              <button class="tag" data-tag="Noise">🔊 Noise</button>
+              <button class="tag" data-tag="Hunger">🍕 Hunger</button>
+              <button class="tag" data-tag="Fatigue">😴 Fatigue</button>
+              <button class="tag" data-tag="People">👥 People</button>
+              <button class="tag" data-tag="Nothing">✅ Nothing</button>
+            </div>
+          </div>
+
+          <div class="reflection-actions">
+            <button id="btn-save-reflection" class="btn btn-primary" style="width: 100%;">Save Reflection</button>
+            <button id="btn-skip-reflection" class="btn btn-ghost" style="width: 100%; margin-top: var(--space-2);">Skip</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- VIEW: COMPLETION                           -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="view-completion" class="view">
+      <div class="completion-view">
+        <div id="confetti-container" class="confetti-container" aria-hidden="true"></div>
+        <div class="completion-content animate-scale-in">
+          <div class="completion-icon">🏆</div>
+          <h1 class="text-h1" style="margin-bottom: var(--space-3);">Amazing work!</h1>
+          <p id="completion-message" class="text-body" style="color: var(--text-secondary); margin-bottom: var(--space-7); max-width: 320px; text-align: center; line-height: 1.7;">You stayed focused and completed your session.</p>
+
+          <div class="completion-stats">
+            <div class="completion-stat">
+              <span id="completion-duration" class="stat-value">20</span>
+              <span class="stat-label">Minutes</span>
+            </div>
+            <div class="completion-stat">
+              <span id="completion-streak" class="stat-value">🔥 1</span>
+              <span class="stat-label">Day Streak</span>
+            </div>
+          </div>
+
+          <div class="completion-actions">
+            <button id="btn-start-another" class="btn btn-primary" style="width: 100%;">Start Another Session</button>
+            <button id="btn-back-dashboard" class="btn btn-ghost" style="width: 100%; margin-top: var(--space-3);">Back to Dashboard</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═════ Background Audio Elements (generated via Web Audio API) ═════ -->
+  <!-- Audio elements kept as fallback containers; actual audio is synthesized in music.js -->
+
+  <!-- ═════ JavaScript ═════ -->
+  <script src="js/visuals.js?v=2"></script>
+  <script src="js/store.js?v=2"></script>
+  <script src="js/music.js?v=2"></script>
+  <script src="js/insights.js?v=2"></script>
+  <script src="js/dashboard.js?v=2"></script>
+  <script src="js/timer.js?v=2"></script>
+  <script src="js/reflection.js?v=2"></script>
+  <script src="js/completion.js?v=2"></script>
+  <script src="js/app.js?v=2"></script>
+</body>
+</html>
